@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap&text=%CE%A3");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Roboto+Flex:opsz,wght@8..144,700&family=Roboto+Serif:opsz,wght@8..144,200&family=Roboto:wght@300;400&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  border: 0; }
+
+body {
+  font-family: 'Roboto', Georgia, serif;
+  color: white;
+  background: #85007d;
+  background: -moz-linear-gradient(90deg, #85007d 0%, #450c57 100%);
+  background: -webkit-linear-gradient(90deg, #85007d 0%, #450c57 100%);
+  background: linear-gradient(90deg, #85007d 0%, #450c57 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#85007d", endColorstr="#450c57", GradientType=1); }
+
+nav {
+  background: #960496;
+  padding: 28px 14px;
+  box-shadow: 0 14px 21px rgba(92, 3, 92, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  position: sticky; }
+
+nav h1 {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 2.1rem;
+  margin: 0 auto;
+  max-width: 1080px; }
+
+#kittyGreet {
+  height: auto;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; }
+
+#kittyGreet h1 {
+  font-family: 'Inter', sans-serif;
+  font-size: 7rem;
+  margin: 21px 0;
+  letter-spacing: 6px; }
+
+#kittyGreet h2 {
+  font-family: 'Roboto Flex', serif;
+  font-size: 7.5rem;
+  padding-bottom: 7px; }
+
+#kittyGreet p {
+  font-family: 'Roboto Serif';
+  font-weight: 200; }
+
+#kittyCarousel {
+  padding-top: 85px; }
+
+.section {
+  margin: 0 21px; }
+
+.section-header {
+  text-align: center;
+  margin: 14px 0;
+  transform: translateY(-14px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px; }
+
+.section-header img {
+  height: 2rem;
+  filter: brightness(500%); }
+
+.section-header h3 {
+  font-family: 'Roboto Flex', serif;
+  font-size: 2rem;
+  margin: 0;
+  text-transform: uppercase; }
+
+.carousel {
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 460px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
+
+.carousel-item {
+  transition: 0.5s; }
+
+.carousel-item-left {
+  transform: matrix(0.7, 0.3, 0, 1, 50, -75);
+  filter: grayscale(100%);
+  opacity: 0.7; }
+
+.carousel-item-right {
+  transform: matrix(0.7, -0.3, 0, 1, -50, -75);
+  filter: grayscale(100%);
+  opacity: 0.7; }
+
+.carousel img {
+  width: 500px;
+  height: 460px;
+  object-fit: fill; }
+
+.active {
+  z-index: 9999;
+  transform: matrix(1, 0, 0, 1, 0, 0); }
+
+.active:hover {
+  cursor: pointer;
+  transform: matrix(1.1, 0, 0, 1.1, 0, 0); }
+
+@media only screen and (max-width: 1330px) {
+  .carousel {
+    height: 322px; }
+  .carousel img {
+    width: 350px;
+    height: 322px; }
+  .carousel-item-left {
+    transform: matrix(0.7, 0.3, 0, 1, 35, -55); }
+  .carousel-item-right {
+    transform: matrix(0.7, -0.3, 0, 1, -35, -55); } }
+
+@media only screen and (max-width: 710px) {
+  #kittyGreet {
+    min-height: 15vh; }
+  #kittyGreet h2 {
+    font-size: 4rem; } }

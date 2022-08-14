@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Gilbert",
+        "color": "Red",
+        "age": 4
+    },
+    {
+        "id": 2,
+        "name": "Herbert",
+        "color": "Cream",
+        "age": 2
+    },
+    {
+        "id": 3,
+        "name": "Billy",
+        "color": "White",
+        "age": 5
+    },
+    {
+        "id": 4,
+        "name": "Bob",
+        "color": "Black",
+        "age": 1
+    },
+    {
+        "id": 5,
+        "name": "Nightmare",
+        "color": "Blue",
+        "age": 3
+    },
+    {
+        "id": 6,
+        "name": "Joanna",
+        "color": "Calico",
+        "age": 1
+    },
+    {
+        "id": 7,
+        "name": "Ed",
+        "color": "Lilac",
+        "age": 1
+    },
+    {
+        "id": 8,
+        "name": "Edd",
+        "color": "Cinnamon",
+        "age": 1
+    },
+    {
+        "id": 9,
+        "name": "Eddy",
+        "color": "Chocolate",
+        "age": 1
+    },
+    {
+        "id": 10,
+        "name": "Delilah",
+        "color": "Tortoiseshell",
+        "age": 3
+    }
+]

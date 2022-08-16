@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+    <script defer src="./assets/js/solid.js"></script>
+    <script defer src="./assets/js/fontawesome.js"></script>
     <title>Kitten Adoption</title>
 </head>
 
@@ -18,22 +20,40 @@
     </nav>
     <section class="section" id="kittyGreet">
         <div>
-            <h2>Meowdy-do!</h2>
+            <h1>Meowdy-do!</h1>
             <p>Welcome to our kitty adoption site! We hope you'll find a furry little companion of your own.</p>
         </div>
     </section>
     <section class="section" id="kittyCarousel">
-        <div class="section-header">
-            <img src="./assets/img/icons/paw.png" alt="A lil' kitty paw" srcset="">
-            <h3>Youngest</h3>
-            <img src="./assets/img/icons/paw.png" alt="A lil' kitty paw" srcset="">
-        </div>
-        <div class="carousel-overlay">
+        <div class="carousel-wrapper">
+            <div class="section-header">
+                <h2>Youngest</h2>
+                <hr />
+            </div>
             <div class="carousel">
-                <img class="carousel-item carousel-item-left" src="./assets/img//kittens/billy.jpg" alt="" srcset="">
-                <img class="carousel-item active" src="./assets/img/kittens/bob.jpg" alt="" srcset="">
-                <img class="carousel-item carousel-item-right" src="./assets/img/kittens/nightmare.jpg" alt=""
-                    srcset="">
+                <i class="fa-solid fa-circle-chevron-left fa-2xl carousel-navigator"></i>
+                <div class="carousel-item carousel-item--prev">
+                    <img src="./assets/img//kittens/billy.jpg" alt="" srcset="">
+                    <div class="carousel-item-info">
+                        <h3>Name</h3>
+                        <i class="fa-solid fa-paw fa-xl"></i>
+                    </div>
+                </div>
+                <div class="carousel-item carousel-item--active">
+                    <img src="./assets/img/kittens/bob.jpg" alt="" srcset="">
+                    <div class="carousel-item-info">
+                        <h3>Name</h3>
+                        <i class="fa-solid fa-paw fa-xl"></i>
+                    </div>
+                </div>
+                <div class="carousel-item carousel-item--next">
+                    <img src="./assets/img/kittens/nightmare.jpg" alt="" srcset="">
+                    <div class="carousel-item-info">
+                        <h3>Name</h3>
+                        <i class="fa-solid fa-paw fa-xl"></i>
+                    </div>
+                </div>
+                <i class="fa-solid fa-circle-chevron-right fa-2xl carousel-navigator"></i>
             </div>
         </div>
     </section>

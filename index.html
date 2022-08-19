@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
-    <script defer src="./assets/js/solid.js"></script>
-    <script defer src="./assets/js/fontawesome.js"></script>
+    <script defer src="./assets/js/fontawesome/solid.js"></script>
+    <script defer src="./assets/js/fontawesome/fontawesome.js"></script>
     <title>Kitten Adoption</title>
 </head>
 
@@ -18,13 +18,13 @@
             <h1>&#931:3</h1>
         </a>
     </nav>
-    <section class="section" id="kittyGreet">
+    <section class="section" id="kitty-greet">
         <div>
             <h1>Meowdy-do!</h1>
             <p>Welcome to our kitty adoption site! We hope you'll find a furry little companion of your own.</p>
         </div>
     </section>
-    <section class="section" id="kittyCarousel">
+    <section class="section" id="kitty-carousel">
         <div class="carousel-wrapper">
             <div class="section-header">
                 <h2>Youngest</h2>
@@ -32,28 +32,39 @@
             </div>
             <div class="carousel">
                 <i class="fa-solid fa-circle-chevron-left fa-2xl carousel-navigator"></i>
-                <div class="carousel-item carousel-item--prev">
-                    <img src="./assets/img//kittens/billy.jpg" alt="" srcset="">
-                    <div class="carousel-item-info">
-                        <h3>Name</h3>
-                        <i class="fa-solid fa-paw fa-xl"></i>
+                <div class="carousel-items">
+                    <div class="carousel-item carousel-item--prev">
+                        <img src="./assets/img//kittens/billy.jpg" alt="" srcset="">
+                        <div class="carousel-item-info">
+                            <h3>Name</h3>
+                            <i class="fa-solid fa-paw fa-xl"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="carousel-item carousel-item--active">
-                    <img src="./assets/img/kittens/bob.jpg" alt="" srcset="">
-                    <div class="carousel-item-info">
-                        <h3>Name</h3>
-                        <i class="fa-solid fa-paw fa-xl"></i>
+                    <div class="carousel-item carousel-item--active">
+                        <img src="./assets/img/kittens/bob.jpg" alt="" srcset="">
+                        <div class="carousel-item-info">
+                            <h3>Name</h3>
+                            <!-- This goes into the model window
+                            <button class="adoption-button">
+                                <span>Adopt</span><i class="fa-solid fa-paw fa-xl"></i>
+                            </button>
+                        -->
+                        </div>
                     </div>
-                </div>
-                <div class="carousel-item carousel-item--next">
-                    <img src="./assets/img/kittens/nightmare.jpg" alt="" srcset="">
-                    <div class="carousel-item-info">
-                        <h3>Name</h3>
-                        <i class="fa-solid fa-paw fa-xl"></i>
+                    <div class="carousel-item carousel-item--next">
+                        <img src="./assets/img/kittens/nightmare.jpg" alt="" srcset="">
+                        <div class="carousel-item-info">
+                            <h3>Name</h3>
+                            <i class="fa-solid fa-paw fa-xl"></i>
+                        </div>
                     </div>
                 </div>
                 <i class="fa-solid fa-circle-chevron-right fa-2xl carousel-navigator"></i>
+            </div>
+            <div class="carousel-indicators">
+                <span><i class="fa-solid fa-circle"></i></span>
+                <span><i class="fa-solid fa-circle"></i></span>
+                <span><i class="fa-solid fa-circle"></i></span>
             </div>
         </div>
     </section>

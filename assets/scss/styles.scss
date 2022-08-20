@@ -139,6 +139,7 @@ nav h1 {
   cursor: pointer;
   padding: 14px;
   transform-style: preserve-3d;
+  z-index: 9999;
 }
 
 .carousel-navigator:first-child {
@@ -153,6 +154,7 @@ nav h1 {
 
 .carousel-item,
 .carousel-item img,
+.carousel-indicators span,
 .carousel-navigator,
 .section-header h2,
 .carousel-item-info,
@@ -265,6 +267,11 @@ nav h1 {
 
 .carousel-indicators > span {
   margin: 0 7px;
+  opacity: 0.35;
+}
+
+.carousel-indicators .carousel-indicator--active {
+  opacity: 0.7;
 }
 
 .carousel-indicators:first-child {

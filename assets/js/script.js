@@ -1,16 +1,23 @@
 'use strict';
 
+// Test
+console.log(document.querySelector('#kitty-greet h1').textContent);
+
 // Paths
 const dataPath = '../../kittens.json';
 
 // Variables
-let localData = [];
-let localSortedData = [];
+let allKittens = [];
+let carouselKittens = [];
+let activeCarouselItemIndex = 0;
+
+// Constants
 const parsedData =
   localStorage.getItem('data') !== null
     ? JSON.parse(localStorage.getItem('data'))
     : [];
 
+// Data retrieval section
 (async function () {
   const response = await fetch(dataPath);
   const data = await response.json();
@@ -38,32 +45,156 @@ const parsedData =
   }, 500);
 })();
 
-const setLocalData = function (data = []) {
+const setAllKittens = function (data = []) {
   if (data.length > 0) {
-    data.forEach((kitten) => {
-      localData.push(kitten);
-    });
+    allKittens = [...data];
   }
-  console.log(localData);
+  console.log(allKittens);
 };
 
-const setLocalSortedData = function (data = []) {
+const setCarouselKittens = function (data = [], items = 4) {
   if (data.length > 0) {
     let sortedData = data.sort((a, b) => a.age - b.age);
-    localSortedData = [...sortedData];
+    carouselKittens = [...sortedData].slice(0, items);
   }
-  console.log(localSortedData);
+  console.log(carouselKittens);
 };
 
-setLocalData(parsedData);
-setLocalSortedData(parsedData);
+setAllKittens(parsedData);
+setCarouselKittens(parsedData, 5);
 
-// Test
-console.log(document.querySelector('#kitty-greet h1').textContent);
+// Carousel item render and behaviour section
+const renderCarouselItem = function (data = '', status = '') {
+  let carouselItem = document.createElement('div');
+  carouselItem.id = `citem-id-${data.id}`;
+  carouselItem.className = `carousel-item carousel-item--${status}`;
 
-const renderCarousel = function (data = '') {
-  let carousel = document.querySelector('.carousel');
-  console.log(carousel);
+  let carouselItemImg = document.createElement('img');
+  carouselItemImg.src = `./assets/img/kittens/${data.name}.jpg`;
+  carouselItemImg.alt = `A picture of a kitten named ${data.name}`;
+
+  carouselItem.appendChild(carouselItemImg);
+  if (status === 'active') {
+    let carouselItemInfo = document.createElement('div');
+    carouselItemInfo.className = 'carousel-item-info';
+
+    let carouselItemInfoName = document.createElement('h3');
+    carouselItemInfoName.textContent = `${data.name}`;
+
+    carouselItemInfo.appendChild(carouselItemInfoName);
+    carouselItem.appendChild(carouselItemInfo);
+  }
+
+  return carouselItem;
 };
 
-//let dataSortedByAge = data.sort((a, b) => a.age - b.age);
+const renderCarouselItems = function (data = '') {
+  let carouselItems = document.querySelector('.carousel-items');
+  carouselItems.innerHTML = '';
+
+  let prevCarouselItemIndex = (activeCarouselItemIndex) => {
+    if (activeCarouselItemIndex - 1 < 0) {
+      return carouselKittens.length - 1;
+    } else {
+      return activeCarouselItemIndex - 1;
+    }
+  };
+  let nextCarouselItemIndex = (activeCarouselItemIndex) => {
+    if (activeCarouselItemIndex + 1 > carouselKittens.length - 1) {
+      return 0;
+    } else {
+      return activeCarouselItemIndex + 1;
+    }
+  };
+  carouselItems.appendChild(
+    renderCarouselItem(
+      carouselKittens[prevCarouselItemIndex(activeCarouselItemIndex)],
+      'prev'
+    )
+  );
+  carouselItems.appendChild(
+    renderCarouselItem(carouselKittens[activeCarouselItemIndex], 'active')
+  );
+  carouselItems.appendChild(
+    renderCarouselItem(
+      carouselKittens[nextCarouselItemIndex(activeCarouselItemIndex)],
+      'next'
+    )
+  );
+};
+
+// Carousel indicator rendering and behaviour section
+const renderCarouselIndicators = function (data = '') {
+  let carouselIndicators = document.querySelector('.carousel-indicators');
+  data.forEach((kitten) => {
+    carouselIndicators.appendChild(createCarouselIndicator(kitten));
+  });
+};
+
+const createCarouselIndicator = function (data = '') {
+  let span = document.createElement('span');
+  span.id = `cindicator-id-${data.id}`;
+
+  let i = document.createElement('i');
+  i.className = 'fa-solid fa-circle';
+
+  span.appendChild(i);
+  return span;
+};
+
+const setActiveCarouselIndicator = function () {
+  if (document.querySelector('.carousel-indicator--active')) {
+    document
+      .querySelector('.carousel-indicator--active')
+      .classList.remove('carousel-indicator--active');
+  }
+
+  let activeCarouselItemId = document
+    .querySelector('.carousel-item--active')
+    .id.substring(9);
+  let activeCarouselIndicator = document.getElementById(
+    `cindicator-id-${activeCarouselItemId}`
+  );
+  activeCarouselIndicator.classList.add('carousel-indicator--active');
+};
+
+// Carousel content initialization section
+const initCarouselContents = function () {
+  renderCarouselItems(carouselKittens);
+  renderCarouselIndicators(carouselKittens);
+  setActiveCarouselIndicator();
+};
+
+initCarouselContents();
+
+const nextCarouselItem = function () {
+  if (activeCarouselItemIndex + 1 > carouselKittens.length - 1) {
+    activeCarouselItemIndex = 0;
+  } else {
+    activeCarouselItemIndex++;
+  }
+  renderCarouselItems();
+  setActiveCarouselIndicator();
+};
+
+const prevCarouselItem = function () {
+  if (activeCarouselItemIndex - 1 < 0) {
+    activeCarouselItemIndex = carouselKittens.length - 1;
+  } else {
+    activeCarouselItemIndex--;
+  }
+  renderCarouselItems();
+  setActiveCarouselIndicator();
+};
+
+/*
+let cycleThroughCarousel = setInterval(nextCarouselItem, 5000);
+document.querySelector('.carousel-item--active').onmouseover = function () {
+  clearInterval(cycleThroughCarousel);
+  console.log(cycleThroughCarousel);
+};
+document.querySelector('.carousel-item--active').onmouseout = function () {
+  cycleThroughCarousel = setInterval(nextCarouselItem, 5000);
+  console.log(cycleThroughCarousel);
+};
+*/

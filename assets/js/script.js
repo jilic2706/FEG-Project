@@ -10,6 +10,8 @@ const dataPath = '../../kittens.json';
 let allKittens = [];
 let carouselKittens = [];
 let activeCarouselItemIndex = 0;
+let isItemBeingInspected = false;
+let isAutomaticCarouselCyclingEnabled = true;
 
 // Constants
 const parsedData =
@@ -63,6 +65,8 @@ const setCarouselKittens = function (data = [], items = 4) {
 setAllKittens(parsedData);
 setCarouselKittens(parsedData, 5);
 
+const getKittenById = function (id = 0) {};
+
 // Carousel item render and behaviour section
 const renderCarouselItem = function (data = '', status = '') {
   let carouselItem = document.createElement('div');
@@ -112,9 +116,22 @@ const renderCarouselItems = function (data = '') {
       'prev'
     )
   );
-  carouselItems.appendChild(
-    renderCarouselItem(carouselKittens[activeCarouselItemIndex], 'active')
+  let activeCarouselItem = renderCarouselItem(
+    carouselKittens[activeCarouselItemIndex],
+    'active'
   );
+  activeCarouselItem.addEventListener('click', function () {
+    isItemBeingInspected = true;
+    isAutomaticCarouselCyclingEnabled = false;
+    document.querySelector('.modal-backdrop').style.display = 'flex';
+  });
+  activeCarouselItem.addEventListener('mouseover', function () {
+    isAutomaticCarouselCyclingEnabled = false;
+  });
+  activeCarouselItem.addEventListener('mouseout', function () {
+    isAutomaticCarouselCyclingEnabled = true;
+  });
+  carouselItems.appendChild(activeCarouselItem);
   carouselItems.appendChild(
     renderCarouselItem(
       carouselKittens[nextCarouselItemIndex(activeCarouselItemIndex)],
@@ -186,6 +203,48 @@ const prevCarouselItem = function () {
   renderCarouselItems();
   setActiveCarouselIndicator();
 };
+
+const cycleThroughCarousel = function () {
+  if (isAutomaticCarouselCyclingEnabled && !isItemBeingInspected) {
+    nextCarouselItem();
+    setActiveCarouselIndicator();
+  }
+};
+
+let carouselCycler = setInterval(cycleThroughCarousel, 5000);
+
+document
+  .querySelector('#cnavigator-left')
+  .addEventListener('click', function () {
+    prevCarouselItem();
+    setActiveCarouselIndicator();
+    clearInterval(carouselCycler);
+    carouselCycler = setInterval(cycleThroughCarousel, 5000);
+  });
+
+document
+  .querySelector('#cnavigator-right')
+  .addEventListener('click', function () {
+    nextCarouselItem();
+    setActiveCarouselIndicator();
+    clearInterval(carouselCycler);
+    carouselCycler = setInterval(cycleThroughCarousel, 5000);
+  });
+
+let modalBackdrop = document.querySelector('.modal-backdrop');
+let modal = document.querySelector('.modal');
+
+document
+  .querySelector('.modal-closing-button')
+  .addEventListener('click', function () {
+    isItemBeingInspected = false;
+    modalBackdrop.style.display = 'none';
+  });
+
+modalBackdrop.addEventListener('click', function () {
+  isItemBeingInspected = false;
+  this.style.display = 'none';
+});
 
 /*
 let cycleThroughCarousel = setInterval(nextCarouselItem, 5000);

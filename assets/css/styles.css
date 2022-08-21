@@ -14,7 +14,8 @@ body {
   background: -moz-linear-gradient(90deg, #85007d 0%, #450c57 100%);
   background: -webkit-linear-gradient(90deg, #85007d 0%, #450c57 100%);
   background: linear-gradient(90deg, #85007d 0%, #450c57 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#85007d", endColorstr="#450c57", GradientType=1); }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#85007d", endColorstr="#450c57", GradientType=1);
+  min-height: 100vh; }
 
 nav {
   background: #960496;
@@ -41,8 +42,12 @@ nav h1 {
   justify-content: center;
   text-align: center; }
 
+h1,
+h2,
+h3 {
+  font-family: 'Roboto Flex', serif; }
+
 #kitty-greet h1 {
-  font-family: 'Roboto Flex', serif;
   font-size: 7.5rem;
   padding-bottom: 7px;
   letter-spacing: 6px; }
@@ -53,6 +58,19 @@ nav h1 {
 
 #kitty-carousel {
   padding-top: 21px; }
+
+.carousel-item,
+.carousel-item img,
+.carousel-indicators span,
+.carousel-navigator,
+.section-header h2,
+.carousel-item-info,
+.adoption-button,
+.adoption-button span,
+.adoption-button svg,
+.modal-backdrop,
+.modal-closing-button svg {
+  transition: 0.5s; }
 
 .section {
   margin: 0 21px;
@@ -66,7 +84,6 @@ nav h1 {
   flex-direction: column; }
 
 .section-header h2 {
-  font-family: 'Roboto Flex', serif;
   font-weight: 500;
   font-size: 1rem;
   margin: 0;
@@ -118,17 +135,6 @@ nav h1 {
   right: 0;
   transform: rotateY(20deg) scale(1.5) translateX(60px); }
 
-.carousel-item,
-.carousel-item img,
-.carousel-indicators span,
-.carousel-navigator,
-.section-header h2,
-.carousel-item-info,
-.adoption-button,
-.adoption-button span,
-.adoption-button svg {
-  transition: 0.5s; }
-
 .carousel-item {
   display: flex; }
 
@@ -153,39 +159,6 @@ nav h1 {
 
 .carousel-item-info h3 {
   overflow: hidden; }
-
-.adoption-button {
-  width: 48px;
-  min-height: 48px;
-  overflow: hidden;
-  font-family: 'Roboto Flex', serif;
-  display: flex;
-  align-items: center;
-  text-transform: uppercase;
-  color: white;
-  background-color: #520a5f;
-  border-radius: 48px; }
-
-.adoption-button span {
-  display: none; }
-
-.adoption-button svg {
-  position: absolute;
-  right: 0;
-  padding: 14px;
-  background-color: #520a5f;
-  border-radius: 34px; }
-
-.adoption-button:hover {
-  background-color: #960496;
-  width: 112px;
-  padding-left: 14px; }
-
-.adoption-button:hover span {
-  display: block; }
-
-.adoption-button:hover svg {
-  background-color: #960496; }
 
 .carousel-item--prev,
 .carousel-item--next {
@@ -225,6 +198,83 @@ nav h1 {
 
 .carousel-indicators:last-child {
   margin-right: 0; }
+
+.modal-backdrop {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  z-index: 9998;
+  min-height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center; }
+
+.modal {
+  padding: 14px;
+  z-index: 9999;
+  width: 500px;
+  height: 500px;
+  background: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; }
+
+.button {
+  cursor: pointer; }
+
+.modal-closing-button {
+  padding: 14px;
+  background-color: transparent; }
+
+.modal-closing-button svg {
+  color: #520a5f; }
+
+.modal-closing-button:hover svg {
+  color: #960496; }
+
+.adoption-button,
+.adoption-button svg {
+  background-color: #520a5f; }
+
+.adoption-button {
+  width: 48px;
+  min-height: 48px;
+  overflow: hidden;
+  font-family: 'Roboto Flex', serif;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  color: white;
+  border-radius: 48px;
+  float: right; }
+
+.adoption-button span {
+  display: none; }
+
+.adoption-button svg {
+  position: absolute;
+  right: 14px;
+  padding: 14px;
+  border-radius: 34px; }
+
+.adoption-button:hover,
+.adoption-button:hover svg {
+  background-color: #960496; }
+
+.adoption-button:hover {
+  width: 112px;
+  padding-left: 14px; }
+
+.adoption-button:hover span {
+  display: block; }
 
 @media only screen and (max-width: 1330px) {
   .section-header h2 {

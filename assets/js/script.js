@@ -10,8 +10,9 @@ const dataPath = '../../kittens.json';
 let allKittens = [];
 let carouselKittens = [];
 let activeCarouselItemIndex = 0;
-let isItemBeingInspected = false;
+let activeCarouselItemId = 0;
 let isAutomaticCarouselCyclingEnabled = true;
+let isItemBeingInspected = false;
 
 // Constants
 const parsedData =
@@ -54,7 +55,7 @@ const setAllKittens = function (data = []) {
   console.log(allKittens);
 };
 
-const setCarouselKittens = function (data = [], items = 4) {
+const setCarouselKittens = function (data = [], items = 3) {
   if (data.length > 0) {
     let sortedData = data.sort((a, b) => a.age - b.age);
     carouselKittens = [...sortedData].slice(0, items);
@@ -63,9 +64,9 @@ const setCarouselKittens = function (data = [], items = 4) {
 };
 
 setAllKittens(parsedData);
-setCarouselKittens(parsedData, 5);
+setCarouselKittens(allKittens, 4);
 
-const getKittenById = function (id = 0) {};
+const getKittenById = (id = 0) => allKittens.find((kitten) => kitten.id === id);
 
 // Carousel item render and behaviour section
 const renderCarouselItem = function (data = '', status = '') {
@@ -92,6 +93,19 @@ const renderCarouselItem = function (data = '', status = '') {
   return carouselItem;
 };
 
+const getModalBodyInformation = function (id = 0) {
+  let kitten = getKittenById(Number(id));
+  document.querySelector(
+    '.modal-body_name'
+  ).innerHTML = `<b>Name: </b> ${kitten.name}`;
+  document.querySelector(
+    '.modal-body_age'
+  ).innerHTML = `<b>Age: </b> ${kitten.age}`;
+  document.querySelector(
+    '.modal-body_color'
+  ).innerHTML = `<b>Color: </b> ${kitten.color}`;
+};
+
 const renderCarouselItems = function (data = '') {
   let carouselItems = document.querySelector('.carousel-items');
   carouselItems.innerHTML = '';
@@ -116,13 +130,16 @@ const renderCarouselItems = function (data = '') {
       'prev'
     )
   );
+
   let activeCarouselItem = renderCarouselItem(
     carouselKittens[activeCarouselItemIndex],
     'active'
   );
+  activeCarouselItemId = activeCarouselItem.id.substring(9);
   activeCarouselItem.addEventListener('click', function () {
     isItemBeingInspected = true;
     isAutomaticCarouselCyclingEnabled = false;
+    getModalBodyInformation(activeCarouselItemId);
     document.querySelector('.modal-backdrop').style.display = 'flex';
   });
   activeCarouselItem.addEventListener('mouseover', function () {
@@ -132,6 +149,7 @@ const renderCarouselItems = function (data = '') {
     isAutomaticCarouselCyclingEnabled = true;
   });
   carouselItems.appendChild(activeCarouselItem);
+
   carouselItems.appendChild(
     renderCarouselItem(
       carouselKittens[nextCarouselItemIndex(activeCarouselItemIndex)],
@@ -143,6 +161,7 @@ const renderCarouselItems = function (data = '') {
 // Carousel indicator rendering and behaviour section
 const renderCarouselIndicators = function (data = '') {
   let carouselIndicators = document.querySelector('.carousel-indicators');
+  carouselIndicators.innerHTML = '';
   data.forEach((kitten) => {
     carouselIndicators.appendChild(createCarouselIndicator(kitten));
   });
@@ -211,7 +230,8 @@ const cycleThroughCarousel = function () {
   }
 };
 
-let carouselCycler = setInterval(cycleThroughCarousel, 5000);
+let carouselCyclerTime = 10000;
+let carouselCycler = setInterval(cycleThroughCarousel, carouselCyclerTime);
 
 document
   .querySelector('#cnavigator-left')
@@ -219,7 +239,7 @@ document
     prevCarouselItem();
     setActiveCarouselIndicator();
     clearInterval(carouselCycler);
-    carouselCycler = setInterval(cycleThroughCarousel, 5000);
+    carouselCycler = setInterval(cycleThroughCarousel, carouselCyclerTime);
   });
 
 document
@@ -228,12 +248,14 @@ document
     nextCarouselItem();
     setActiveCarouselIndicator();
     clearInterval(carouselCycler);
-    carouselCycler = setInterval(cycleThroughCarousel, 5000);
+    carouselCycler = setInterval(cycleThroughCarousel, carouselCyclerTime);
   });
 
 let modalBackdrop = document.querySelector('.modal-backdrop');
-let modal = document.querySelector('.modal');
-
+modalBackdrop.addEventListener('click', function () {
+  isItemBeingInspected = false;
+  this.style.display = 'none';
+});
 document
   .querySelector('.modal-closing-button')
   .addEventListener('click', function () {
@@ -241,19 +263,23 @@ document
     modalBackdrop.style.display = 'none';
   });
 
-modalBackdrop.addEventListener('click', function () {
-  isItemBeingInspected = false;
-  this.style.display = 'none';
-});
+const removeKittenById = function (id = 0) {
+  if (id > -1) {
+    let kittenIndex = allKittens.findIndex(
+      (kitten) => kitten.id === Number(id)
+    );
+    allKittens.splice(kittenIndex, 1);
+    carouselKittens.length = 0;
+    setCarouselKittens(allKittens, 4);
+    activeCarouselItemIndex = 0;
+    renderCarouselItems(carouselKittens);
+    renderCarouselIndicators(carouselKittens);
+    setActiveCarouselIndicator();
+  }
+};
 
-/*
-let cycleThroughCarousel = setInterval(nextCarouselItem, 5000);
-document.querySelector('.carousel-item--active').onmouseover = function () {
-  clearInterval(cycleThroughCarousel);
-  console.log(cycleThroughCarousel);
-};
-document.querySelector('.carousel-item--active').onmouseout = function () {
-  cycleThroughCarousel = setInterval(nextCarouselItem, 5000);
-  console.log(cycleThroughCarousel);
-};
-*/
+document
+  .querySelector('.adoption-button')
+  .addEventListener('click', function () {
+    removeKittenById(activeCarouselItemId);
+  });

@@ -13,6 +13,7 @@ let activeCarouselItemIndex = 0;
 let activeCarouselItemId = 0;
 let isAutomaticCarouselCyclingEnabled = true;
 let isItemBeingInspected = false;
+let searchItemQuantity = 10;
 
 // Constants
 const parsedData =
@@ -76,6 +77,9 @@ const renderCarouselItem = function (data = '', status = '') {
 
   let carouselItemImg = document.createElement('img');
   carouselItemImg.src = `./assets/img/kittens/${data.name}.jpg`;
+  carouselItemImg.addEventListener('error', function () {
+    carouselItemImg.src = './assets/img/default.jpg';
+  });
   carouselItemImg.alt = `A picture of a kitten named ${data.name}`;
 
   carouselItem.appendChild(carouselItemImg);
@@ -263,6 +267,130 @@ document
     modalBackdrop.style.display = 'none';
   });
 
+const renderSearchItem = function (data = '') {
+  let searchItem = document.createElement('div');
+  searchItem.id = `sitem-id-${data.id}`;
+  searchItem.className = 'search-result_card';
+
+  let searchItemImg = document.createElement('img');
+  searchItemImg.src = `./assets/img/kittens/${data.name}.jpg`;
+  searchItemImg.addEventListener('error', function () {
+    searchItemImg.src = './assets/img/default.jpg';
+  });
+  searchItemImg.alt = `A picture of a kitten named ${data.name}`;
+
+  let searchItemInfo = document.createElement('div');
+  searchItemInfo.className = 'search-result_card-info';
+  let searchItemName = document.createElement('h4');
+  searchItemName.innerText = data.name;
+  let searchItemAge = document.createElement('small');
+  searchItemAge.innerHTML = `<i class="fa-solid fa-calendar fa-xs"></i> ${data.age} month(s) old`;
+  let searchItemColor = document.createElement('small');
+  searchItemColor.innerHTML = `<i class="fa-solid fa-palette fa-xs"></i> ${data.color}`;
+  let searchItemAdoptBtn = document.createElement('button');
+  searchItemAdoptBtn.className = 'button adoption-button';
+  searchItemAdoptBtn.innerHTML =
+    '<span>Adopt</span><i class="fa-solid fa-paw fa-xl"></i>';
+  searchItemAdoptBtn.addEventListener('click', function () {
+    removeKittenById(data.id);
+  });
+  searchItemInfo.appendChild(searchItemName);
+  searchItemInfo.appendChild(searchItemAge);
+  searchItemInfo.appendChild(searchItemColor);
+  searchItemInfo.appendChild(searchItemAdoptBtn);
+
+  searchItem.appendChild(searchItemImg);
+  searchItem.appendChild(searchItemInfo);
+
+  return searchItem;
+};
+
+const renderSearchItems = function (quantity = 10, snsParams) {
+  // sns - Searching And Sorting
+  let searchResults = document.querySelector('.search-results');
+  let data = [];
+  searchResults.innerHTML = '';
+  if (snsParams.size == 0) {
+    data = allKittens.sort((a, b) => a.age - b.age).slice(0, quantity);
+  } else {
+    let searchByName = snsParams.has('searchByName')
+      ? snsParams.get('searchByName')
+      : '';
+    let sortBy = snsParams.has('sortBy') ? snsParams.get('sortBy') : '';
+    let sortOrder = snsParams.has('sortOrder')
+      ? snsParams.get('sortOrder')
+      : '';
+    let yt6 = snsParams.has('yt6') ? snsParams.get('yt6') : false;
+    let yt12 = snsParams.has('yt12') ? snsParams.get('yt12') : false;
+    let bc = snsParams.has('bc') ? snsParams.get('bc') : false;
+    if (sortBy.length > 0) {
+      switch (sortBy) {
+        case 'name':
+          if (sortOrder.length > 0) {
+            data =
+              sortOrder == 'desc'
+                ? allKittens
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .slice(0, quantity)
+                : allKittens
+                    .sort((a, b) => b.name.localeCompare(a.name))
+                    .slice(0, quantity);
+          } else {
+            data = allKittens
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .slice(0, quantity);
+          }
+          break;
+        case 'age':
+          if (sortOrder.length > 0) {
+            data =
+              sortOrder == 'desc'
+                ? allKittens.sort((a, b) => a.age - b.age).slice(0, quantity)
+                : allKittens.sort((a, b) => b.age - a.age).slice(0, quantity);
+          } else {
+            data = allKittens.sort((a, b) => a.age - b.age).slice(0, quantity);
+          }
+          break;
+        default:
+          data = allKittens.sort((a, b) => a.age - b.age).slice(0, quantity);
+      }
+    }
+
+    if (searchByName.length > 0) {
+      if (data.length > 0) {
+        let temp = [...data];
+        data.length = 0;
+        data = temp.filter((kitten) =>
+          kitten.name.toLowerCase().includes(searchByName)
+        );
+      } else {
+        data = allKittens
+          .sort((a, b) => a.age - b.age)
+          .slice(0, quantity)
+          .filter((kitten) => kitten.name.toLowerCase().includes(searchByName));
+      }
+    }
+  }
+
+  if (data.length > 0) {
+    data.forEach((kitten) => {
+      searchResults.appendChild(renderSearchItem(kitten));
+    });
+    if (searchItemQuantity < allKittens.length) {
+      let loadMoreBtn = document.createElement('button');
+      loadMoreBtn.innerText = 'Load More';
+      loadMoreBtn.className = 'button load-more-button';
+      loadMoreBtn.addEventListener('click', function () {
+        searchItemQuantity += 10;
+        renderSearchItems(searchItemQuantity, snsParams);
+      });
+      searchResults.appendChild(loadMoreBtn);
+    }
+  }
+};
+
+renderSearchItems(searchItemQuantity, new Map());
+
 const removeKittenById = function (id = 0) {
   if (id > -1) {
     let kittenIndex = allKittens.findIndex(
@@ -275,11 +403,40 @@ const removeKittenById = function (id = 0) {
     renderCarouselItems(carouselKittens);
     renderCarouselIndicators(carouselKittens);
     setActiveCarouselIndicator();
+    renderSearchItems(searchItemQuantity, new Map());
   }
 };
 
 document
-  .querySelector('.adoption-button')
+  .querySelector('.modal-footer .adoption-button')
   .addEventListener('click', function () {
     removeKittenById(activeCarouselItemId);
+  });
+
+document
+  .querySelector('.search-params')
+  .addEventListener('submit', function (e) {
+    let snsParams = new Map();
+    let searchByName = document.forms['search-form']['search_by-name'].value;
+    let sortBy = document.forms['search-form']['search-property'].value;
+    let sortOrder = document.forms['search-form']['search-order'].value;
+    let searchFilters = document.querySelectorAll(
+      '.search-params input[type=checkbox]:checked'
+    );
+    if (searchByName.length > 0) {
+      snsParams.set('searchByName', searchByName);
+    }
+    if (sortBy.length > 0) {
+      snsParams.set('sortBy', sortBy);
+    }
+    if (sortOrder.length > 0) {
+      snsParams.set('sortOrder', sortOrder);
+    }
+    if (searchFilters.length > 0) {
+      searchFilters.forEach((searchFilter) => {
+        snsParams.set(searchFilter.value, true);
+      });
+    }
+    renderSearchItems(searchItemQuantity, snsParams);
+    e.preventDefault();
   });

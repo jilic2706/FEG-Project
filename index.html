@@ -18,12 +18,14 @@
             <h1>&#931:3</h1>
         </a>
     </nav>
+
     <section class="section" id="kitty-greet">
         <div>
             <h1>Meowdy-do!</h1>
             <p>Welcome to our kitty adoption site! We hope you'll find a furry little companion of your own.</p>
         </div>
     </section>
+
     <section class="section" id="kitty-carousel">
         <div class="carousel-wrapper">
             <div class="section-header">
@@ -46,6 +48,65 @@
             </div>
         </div>
     </section>
+
+    <section class="section" id="kitty-search">
+        <div class="search-wrapper">
+            <form name="search-form" class="search-params">
+                <input type="text" id="sName" name="search_by-name" placeholder="Kitten Name">
+                <fieldset>
+                    <legend>Sort by</legend>
+                    <div class="search-param">
+                        <input type="radio" id="name" name="search-property" value="name">
+                        <label for="name">Name</label>
+                    </div>
+
+                    <div class="search-param">
+                        <input type="radio" id="age" name="search-property" value="age">
+                        <label for="age">Age</label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Sort order</legend>
+                    <div class="search-param">
+                        <input type="radio" id="asc" name="search-order" value="asc">
+                        <label for="asc">Ascending</label>
+                    </div>
+
+                    <div class="search-param">
+                        <input type="radio" id="desc" name="search-order" value="desc">
+                        <label for="desc">Descending</label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Search filters</legend>
+                    <div class="search-param">
+                        <input type="checkbox" id="yt6" name="younger_than-6" value="yt6">
+                        <label for="yt6">Younger than 6 months</label>
+                    </div>
+                    
+                    <div class="search-param">
+                        <input type="checkbox" id="yt12" name="younger_than-12" value="yt12">
+                        <label for="yt12">Younger than 12 months</label>
+                    </div>
+
+                    <div class="search-param">
+                        <input type="checkbox" id="bc" name="black-coat" value="bc">
+                        <label for="bc">Has a black coat</label>
+                    </div>
+                    
+                </fieldset>
+                <button type="submit" class="button search-button">
+                    <span>Search</span>
+                </button>
+            </form>
+            <div class="search-results">
+                
+            </div>
+        </div>
+    </section>
+
     <div class="modal-backdrop">
         <div class="modal">
             <div class="modal-header">

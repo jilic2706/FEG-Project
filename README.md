@@ -7,3 +7,4 @@ To run the project, you would two things: Node.js and Live Server. The latter co
   * The search filter checkboxes are not styled at all.
 * The 'Load More' button behaves a little strangely on certain conditions.
   * One such _condition_ is searcing an item by name before expanding the list.
+* Small data set (currently consists of 12 entities, should've been at least 35).

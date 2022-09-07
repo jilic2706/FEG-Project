@@ -1,4 +1,4 @@
-# FEG-Project
+# unnamed-kitten-addoption-webapp
 ## Running & Testing
 To run the project, you would two things: Node.js and Live Server. The latter could either be installed via the __Live Server__ extension in Visual Studio Code or downloaded via the npm package of the same name. I - personally - downloaded the package and positioning myself in the project directory and executing the following chain of commands in a bash terminal: `npm install live-server -g && npm install && live-server` in the terminal.
 
